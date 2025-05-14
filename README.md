@@ -23,7 +23,7 @@
 
 This project implements a real-time financial data analytics platform using Apache Kafka, Apache Cassandra, Apache Spark, and Apache Airflow. The system collects financial data from Alpha Vantage API, processes it through Kafka and Spark Streaming, stores it in Cassandra, and provides real-time analytics through a Streamlit web application.
 
-### Architecture Overview
+## Architecture Overview
 
 The system is designed with a microservices architecture, divided into three distinct environments for better scalability and maintainability:
 
@@ -93,7 +93,7 @@ This architecture provides several key benefits:
 - **Reliability**: Better fault isolation and recovery
 - **Monitoring**: Clear separation of concerns for easier debugging
 
-### Project Structure
+## Project Structure
 
 ```
 ├── app/                                                       # Streamlit web application

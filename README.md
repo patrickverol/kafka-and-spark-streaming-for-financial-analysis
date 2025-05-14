@@ -110,14 +110,6 @@ The system consists of three main components:
 
 ---
 
-## Credentials
-
-### Airflow
-- **username:** `admin`
-- **password:** `admin`
-
----
-
 ## Setup Instructions
 1. Clone the repository
 2. Set up environment variables (*Section below*)
@@ -127,7 +119,7 @@ The system consists of three main components:
 6. Start the client, to move data from kafka to Cassandra using Spark Streaming (*Section below*)
 7. Start the app to visualize the analytics dashboard (*Section below*)
 
----
+--
 
 1. **Clone the repository**
    ```bash
@@ -154,10 +146,11 @@ The system consists of three main components:
    - Replace the _<your-api-key>_ with your API key
    - In this part of the code you will define which stocks you want to get data, the interval and the months.
 
-   *Tips:*
+   `
+   Tips:
    _- You can change the approach of the code to get enviroment variables dinamically from a .env file, or you can use variables from Airflow UI_
    _- Alternativally, you can define a DAG for each Stock, it would be better for monitoring_
-   
+   `
 
 3. **Start the server**
    Go to the server folder and run:
@@ -210,7 +203,7 @@ The system consists of three main components:
    - Open the Streamlit web app on http://localhost:8501
    - Enter a stock symbol (e.g., IBM, NVDA)
    - View real-time analytics and charts
-   
+
    ```
    ## Features
 

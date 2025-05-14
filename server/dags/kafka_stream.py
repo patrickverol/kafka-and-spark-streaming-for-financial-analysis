@@ -109,7 +109,7 @@ def stream_data():
     months = ["2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04"]  
 
     # Define API key
-    api_key = "GOCUE6NFQYPQA3X5"
+    api_key = "YOUR_API_KEY"
     
     try:
 

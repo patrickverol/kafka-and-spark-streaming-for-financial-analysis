@@ -99,7 +99,7 @@ The system consists of three main components:
 3. **Kafka Control Center**
    - URL: http://localhost:9021
 
---- 
+---
 
 ## Requirements
 
@@ -111,7 +111,7 @@ The system consists of three main components:
 ---
 
 ## Setup Instructions
-1. Clone the repository
+1. Clone the repository (*Section below*)
 2. Set up environment variables (*Section below*)
 3. Start the server by running `docker compose up --build` to initialize the containers. If you want to run it in the background, add `-d` argument
 4. Wait for all services to start
@@ -119,7 +119,7 @@ The system consists of three main components:
 6. Start the client, to move data from kafka to Cassandra using Spark Streaming (*Section below*)
 7. Start the app to visualize the analytics dashboard (*Section below*)
 
---
+---
 
 1. **Clone the repository**
    ```bash
@@ -146,11 +146,11 @@ The system consists of three main components:
    - Replace the _<your-api-key>_ with your API key
    - In this part of the code you will define which stocks you want to get data, the interval and the months.
 
-   `
+   ```
    Tips:
-   _- You can change the approach of the code to get enviroment variables dinamically from a .env file, or you can use variables from Airflow UI_
-   _- Alternativally, you can define a DAG for each Stock, it would be better for monitoring_
-   `
+   - You can change the approach of the code to get enviroment variables dinamically from a .env file, or you can use variables from Airflow UI
+   - Alternativally, you can define a DAG for each Stock, it would be better for monitoring
+   ```
 
 3. **Start the server**
    Go to the server folder and run:

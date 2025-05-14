@@ -1,5 +1,5 @@
 <h1 align="center">
-    Kafka and Spark Streaming for Financial Analysis
+    Kafka and Spark Streaming for Real-Time Financial Data Analytics
 </h1>
 
 <br>
@@ -21,27 +21,79 @@
 
 ## About the project
 
-# Real-Time Financial Data Analytics Platform
-
 This project implements a real-time financial data analytics platform using Apache Kafka, Apache Cassandra, Apache Spark, and Apache Airflow. The system collects financial data from Alpha Vantage API, processes it through Kafka and Spark Streaming, stores it in Cassandra, and provides real-time analytics through a Streamlit web application.
 
----
+### Architecture Overview
 
-In this project, I develop a data lakehouse on the Snowflake and Databricks platforms, performing data transformations with DBT and using Airbyte for data loading.
+The system is designed with a microservices architecture, divided into three distinct environments for better scalability and maintainability:
 
-The entire environment is managed with Docker, ensuring environment isolation and version control.
+1. **Server Environment (Docker Compose)**
+   - Manages the data ingestion pipeline
+   - Orchestrates the ETL process using Airflow
+   - Handles API data collection and Kafka message production
+   - Advantages:
+     - Centralized orchestration
+     - Easy monitoring of data ingestion
+     - Scalable API data collection
+     - Independent scaling of Kafka brokers
 
-Airbyte is one of the most widely used open-source tools for data movement. In this project, the data is moved from a Postgres database to Snowflake or Databricks, but several data sources can be connected through the Airbyte UI.
+2. **Client Environment (Docker)**
+   - Processes streaming data using Spark
+   - Consumes messages from Kafka topics
+   - Stores processed data in Cassandra
+   - Advantages:
+     - Independent scaling of data processing
+     - Can run multiple consumers for different purposes
+     - Better resource isolation
+     - Flexible deployment options
 
-Likewise, DBT is one of the most widely used open-source tools for data transformation. In this project, DBT is used to build the bronze, silver, and gold layers in Snowflake or Databricks.
+3. **Frontend Environment (Docker)**
+   - Provides real-time analytics dashboard using Streamlit
+   - Queries data from Cassandra
+   - Visualizes financial metrics and indicators
+   - Advantages:
+     - Independent scaling of web interface
+     - Can be deployed closer to end-users
+     - Easy to update and maintain
+     - Separate resource allocation
 
-With this approach, the benefits of the best open-source data tools are taken advantage of, as well as the benefits of the best data platforms.
+### Data Flow and Storage Strategy
 
-In addition, this project addresses the main step in building a data lakehouse: data modeling. A fictitious company and a business problem to be solved are defined. From this business problem, data modeling is performed to solve the problem, where the conceptual, dimensional, logical and physical models are defined to build the data lakehouse and solve the proposed problem based on data.
+The system implements a sophisticated data partitioning strategy:
 
-If you want to understand the modeling part, go to the modeling folder, where the entire resolution of the business problem is developed.
+1. **Kafka Topics**
+   - Each stock has its own dedicated topic (e.g., `NVDA_topic`, `IBM_topic`)
+   - Advantages:
+     - Better data isolation
+     - Independent scaling of message processing
+     - Easier monitoring per stock
+     - Improved fault tolerance
 
-## Project Structure
+2. **Cassandra Tables**
+   - Each stock has its own table (e.g., `stock_NVDA`, `stock_IBM`)
+   - Advantages:
+     - Optimized query performance
+     - Better data organization
+     - Easier data management
+     - Improved scalability
+
+3. **Streamlit Dashboard**
+   - Dynamically queries the appropriate table based on user selection
+   - Advantages:
+     - Faster data retrieval
+     - Better user experience
+     - More efficient resource usage
+     - Easier to add new stocks
+
+This architecture provides several key benefits:
+- **Scalability**: Each component can be scaled independently
+- **Maintainability**: Issues in one component don't affect others
+- **Flexibility**: Easy to add new stocks or modify processing logic
+- **Performance**: Optimized data flow and storage
+- **Reliability**: Better fault isolation and recovery
+- **Monitoring**: Clear separation of concerns for easier debugging
+
+### Project Structure
 
 ```
 ├── app/                                                       # Streamlit web application
@@ -63,25 +115,6 @@ If you want to understand the modeling part, go to the modeling folder, where th
 │   └── requirements.txt                                       # Spark and processing dependencies
 └── README.md                                                  # Project documentation
 ```
-
-## Architecture
-
-The system consists of three main components:
-
-1. **Data Producer (Airflow DAG)**
-   - Collects financial data from Alpha Vantage API
-   - Processes and formats the data
-   - Sends data to Kafka topics
-
-2. **Data Consumer (Spark)**
-   - Consumes data from Kafka topics
-   - Processes and transforms the data
-   - Stores data in Cassandra
-
-3. **Web Application (Streamlit)**
-   - Provides real-time analytics dashboard
-   - Visualizes financial data
-   - Shows technical indicators and charts
 
 ---
 

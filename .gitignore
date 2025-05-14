@@ -11,3 +11,5 @@ server/logs/
 server/dags/.env
 
 README2.md
+
+.gitignore

@@ -57,7 +57,7 @@ The system is designed with a microservices architecture, divided into three dis
      - Easy to update and maintain
      - Separate resource allocation
 
-### Data Flow and Storage Strategy
+## Data Flow and Storage Strategy
 
 The system implements a sophisticated data partitioning strategy:
 

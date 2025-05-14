@@ -1,0 +1,13 @@
+# Virtual Environment
+.venv/
+
+# Project specific
+app/test_cassandra.py
+image/
+server/dags/__pycache__/
+server/dags/stock_analytics_pipeline.py
+server/dags/consumer_stream.py
+server/logs/
+server/dags/.env
+
+README2.md

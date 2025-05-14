@@ -1,0 +1,53 @@
+STREAMLIT APP SETUP INSTRUCTIONS
+==============================
+
+1. BUILD THE DOCKER IMAGE
+------------------------
+docker build -t streamlit-app .
+
+2. CREATE AND START THE CONTAINER
+--------------------------------
+docker run -d --name streamlit-app -p 8501:8501 --network server_mynetwork streamlit-app
+
+3. CHECK IF THE CONTAINER IS RUNNING
+-----------------------------------
+docker ps
+
+4. VIEW THE APP
+--------------
+Open your browser and go to: http://localhost:8501
+
+5. IF YOU NEED TO STOP THE CONTAINER
+-----------------------------------
+docker stop streamlit-app
+
+6. IF YOU NEED TO REMOVE THE CONTAINER
+-------------------------------------
+docker rm -f streamlit-app
+
+7. IF YOU NEED TO REBUILD AND RESTART
+------------------------------------
+docker rm -f streamlit-app
+docker build -t streamlit-app .
+docker run -d --name streamlit-app -p 8501:8501 --network server_mynetwork streamlit-app
+
+8. VIEW CONTAINER LOGS
+---------------------
+docker logs streamlit-app
+
+9. TROUBLESHOOTING
+-----------------
+- If the app doesn't start, check if Cassandra is running:
+  docker ps | grep cassandra
+
+- If you get network errors, verify the network exists:
+  docker network ls | grep server_mynetwork
+
+- If you need to recreate the network:
+  docker network create server_mynetwork
+
+10. CLEANUP
+----------
+To remove everything and start fresh:
+docker rm -f streamlit-app
+docker rmi streamlit-app 

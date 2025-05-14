@@ -1,0 +1,90 @@
+KAFKA PRODUCER AND INFRASTRUCTURE SETUP INSTRUCTIONS
+=================================================
+
+1. START THE INFRASTRUCTURE
+--------------------------
+docker-compose up -d
+
+2. CHECK IF ALL SERVICES ARE RUNNING
+----------------------------------
+docker-compose ps
+
+3. VIEW SERVICE LOGS
+-------------------
+- For all services:
+  docker-compose logs
+
+- For specific services:
+  docker-compose logs kafka
+  docker-compose logs cassandra
+  docker-compose logs producer
+
+4. IF YOU NEED TO STOP THE SERVICES
+---------------------------------
+docker-compose down
+
+5. IF YOU NEED TO RESTART THE SERVICES
+------------------------------------
+docker-compose down
+docker-compose up -d
+
+6. TROUBLESHOOTING
+-----------------
+- If services don't start properly:
+  1. Check if ports are available:
+     netstat -an | grep 9092  # Kafka port
+     netstat -an | grep 9042  # Cassandra port
+  2. Check service logs for specific errors
+  3. Ensure Docker has enough resources allocated
+
+- If Kafka is not accessible:
+  1. Check if Kafka is running:
+     docker-compose ps | grep kafka
+  2. Verify Kafka topics:
+     docker exec -it kafka kafka-topics.sh --list --bootstrap-server localhost:9092
+
+- If Cassandra is not accessible:
+  1. Check if Cassandra is running:
+     docker-compose ps | grep cassandra
+  2. Verify Cassandra connection:
+     docker exec -it cassandra cqlsh
+
+- If the producer is not sending data:
+  1. Check producer logs:
+     docker-compose logs producer
+  2. Verify Kafka connection:
+     docker exec -it kafka kafka-topics.sh --describe --topic stock_data --bootstrap-server localhost:9092
+
+7. CLEANUP
+----------
+To remove everything and start fresh:
+docker-compose down -v
+docker system prune -f
+
+8. ADDITIONAL INFORMATION
+------------------------
+- The infrastructure includes:
+  * Kafka for message streaming
+  * Cassandra for data storage
+  * Producer service for generating stock data
+
+- Default ports:
+  * Kafka: 9092
+  * Cassandra: 9042
+  * Zookeeper: 2181
+
+- Data flow:
+  1. Producer generates stock data
+  2. Data is sent to Kafka topics
+  3. Consumer processes data and stores in Cassandra
+  4. Streamlit app visualizes the data
+
+9. MONITORING
+------------
+- Kafka topics and messages:
+  docker exec -it kafka kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic stock_data --from-beginning
+
+- Cassandra data:
+  docker exec -it cassandra cqlsh
+  USE financial_data;
+  SELECT * FROM stock_[symbol] LIMIT 10; 

@@ -1,0 +1,64 @@
+KAFKA CONSUMER SETUP INSTRUCTIONS
+===============================
+
+1. BUILD THE DOCKER IMAGE
+------------------------
+docker build -t kafka-spark-cassandra-consumer .
+
+2. CREATE AND START THE CONTAINER
+--------------------------------
+docker run -d --name client --network server_mynetwork kafka-spark-cassandra-consumer
+
+3. CHECK IF THE CONTAINER IS RUNNING
+-----------------------------------
+docker ps
+
+4. VIEW CONSUMER LOGS
+--------------------
+docker logs client
+
+5. IF YOU NEED TO STOP THE CONTAINER
+-----------------------------------
+docker stop client
+
+6. IF YOU NEED TO REMOVE THE CONTAINER
+-------------------------------------
+docker rm -f client
+
+7. IF YOU NEED TO REBUILD AND RESTART
+------------------------------------
+docker rm -f client
+docker build -t kafka-spark-cassandra-consumer .
+docker run -d --name client --network server_mynetwork kafka-spark-cassandra-consumer
+
+8. TROUBLESHOOTING
+-----------------
+- If the consumer doesn't start, check if Kafka and Cassandra are running:
+  docker ps | grep kafka
+  docker ps | grep cassandra
+
+- If you get network errors, verify the network exists:
+  docker network ls | grep server_mynetwork
+
+- If you need to recreate the network:
+  docker network create server_mynetwork
+
+- If the consumer is not processing data:
+  1. Check Kafka topics:
+     docker exec -it kafka kafka-topics.sh --list --bootstrap-server localhost:9092
+  2. Verify data is being produced:
+     docker exec -it kafka kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic stock_data --from-beginning
+
+9. CLEANUP
+----------
+To remove everything and start fresh:
+docker rm -f client
+docker rmi kafka-spark-cassandra-consumer
+
+10. ADDITIONAL INFORMATION
+-------------------------
+- The consumer processes stock data from Kafka topics and stores it in Cassandra
+- It uses Spark for data processing and analysis
+- The consumer automatically creates necessary tables in Cassandra
+- Data is stored in the 'financial_data' keyspace
+- Each stock has its own table named 'stock_[symbol]' 
